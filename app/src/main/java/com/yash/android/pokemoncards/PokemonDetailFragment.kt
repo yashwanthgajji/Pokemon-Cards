@@ -25,8 +25,28 @@ class PokemonDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pokeHeight.statName.text = "Height"
-        binding.pokeHeight.statValue.text = ".1m"
+        updateUi()
+    }
+
+    private fun updateUi() {
+        binding.apply {
+            pokemonHeight.statName.text = "Height(meter)"
+            pokemonHeight.statValue.text = "0.4m"
+            pokemonWeight.statName.text = "Weight(Kg)"
+            pokemonWeight.statValue.text = "6kg"
+            baseStatHp.statName.text = "Hp"
+            baseStatHp.statValue.text = "35"
+            baseStatAttack.statName.text = "Attack"
+            baseStatAttack.statValue.text = "55"
+            baseStatDefense.statName.text = "Defense"
+            baseStatDefense.statValue.text = "40"
+            baseStatSplAttack.statName.text = "Special Attack"
+            baseStatSplAttack.statValue.text = "50"
+            baseStatSplDefense.statName.text = "Special Defense"
+            baseStatSplDefense.statValue.text = "50"
+            baseStatSpeed.statName.text = "Speed"
+            baseStatSpeed.statValue.text = "90"
+        }
     }
 
     override fun onDestroyView() {
