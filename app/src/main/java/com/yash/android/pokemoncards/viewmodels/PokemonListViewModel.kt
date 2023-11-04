@@ -1,114 +1,26 @@
 package com.yash.android.pokemoncards.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.yash.android.pokemoncards.PokemonRepository
 import com.yash.android.pokemoncards.models.Pokemon
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 class PokemonListViewModel: ViewModel() {
-    val pokemons = listOf(
-        Pokemon(
-            UUID.randomUUID(),
-            "Bulbasaur",
-            "bulbasaur.png",
-            0.7,
-            6.9,
-            45,
-            49,
-            49,
-            65,
-            65,
-            45
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Arbok",
-            "arbok.png",
-            3.5,
-            65.0,
-            60,
-            95,
-            69,
-            65,
-            79,
-            80
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Charmander",
-            "charmander.png",
-            0.6,
-            8.5,
-            39,
-            52,
-            43,
-            60,
-            50,
-            65
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Mewtwo",
-            "mewtwo.png",
-            2.0,
-            122.0,
-            106,
-            110,
-            90,
-            154,
-            90,
-            130
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Moltres",
-            "moltres.png",
-            2.0,
-            60.0,
-            90,
-            100,
-            90,
-            125,
-            85,
-            90
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Onix",
-            "onix.png",
-            8.8,
-            210.0,
-            35,
-            45,
-            160,
-            30,
-            45,
-            70
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Pikachu",
-            "pikachu.png",
-            0.4,
-            6.0,
-            35,
-            55,
-            40,
-            50,
-            50,
-            90
-        ),
-        Pokemon(
-            UUID.randomUUID(),
-            "Treecko",
-            "treecko.png",
-            0.5,
-            5.0,
-            40,
-            45,
-            35,
-            65,
-            55,
-            70
-        )
-    )
+    private val pokemonRepository = PokemonRepository.getInstance()
+    private val _pokemonsFlow: MutableStateFlow<List<Pokemon>> = MutableStateFlow(emptyList())
+    val pokemonsFlow: StateFlow<List<Pokemon>>
+        get() = _pokemonsFlow.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            pokemonRepository.getAllPokemons().collect {
+                _pokemonsFlow.value = it
+            }
+        }
+    }
 }

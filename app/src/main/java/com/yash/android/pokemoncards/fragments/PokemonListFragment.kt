@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.yash.android.pokemoncards.PokemonListAdapter
 import com.yash.android.pokemoncards.databinding.FragmentPokemonListBinding
 import com.yash.android.pokemoncards.viewmodels.PokemonListViewModel
+import kotlinx.coroutines.launch
 
 class PokemonListFragment: Fragment() {
     private val pokemonListViewModel: PokemonListViewModel by viewModels()
@@ -32,10 +36,17 @@ class PokemonListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pokemonRecyclerView.adapter = PokemonListAdapter(pokemonListViewModel.pokemons) { pokemonId ->
-            findNavController().navigate(
-                PokemonListFragmentDirections.showPokemonDetail(pokemonId)
-            )
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                pokemonListViewModel.pokemonsFlow.collect { pokemons ->
+                    binding.pokemonRecyclerView.adapter =
+                        PokemonListAdapter(pokemons) { pokemonId ->
+                            findNavController().navigate(
+                                PokemonListFragmentDirections.showPokemonDetail(pokemonId)
+                            )
+                        }
+                }
+            }
         }
     }
 

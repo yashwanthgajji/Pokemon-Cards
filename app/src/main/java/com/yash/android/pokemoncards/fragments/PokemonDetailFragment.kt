@@ -5,7 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.yash.android.pokemoncards.databinding.FragmentPokemonDetailBinding
+import com.yash.android.pokemoncards.models.Pokemon
+import com.yash.android.pokemoncards.viewmodels.PokemonDetailViewModel
+import com.yash.android.pokemoncards.viewmodels.PokemonDetailViewModelFactory
+import kotlinx.coroutines.launch
 
 class PokemonDetailFragment: Fragment() {
     private var _binding: FragmentPokemonDetailBinding? = null
@@ -13,6 +22,10 @@ class PokemonDetailFragment: Fragment() {
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
+    private val args:PokemonDetailFragmentArgs by navArgs()
+    private val pokemonDetailViewModel: PokemonDetailViewModel by viewModels() {
+        PokemonDetailViewModelFactory(args.pokemonId)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,27 +38,42 @@ class PokemonDetailFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        updateUi()
-    }
-
-    private fun updateUi() {
         binding.apply {
             pokemonHeight.statName.text = "Height(meter)"
-            pokemonHeight.statValue.text = "0.4m"
             pokemonWeight.statName.text = "Weight(Kg)"
-            pokemonWeight.statValue.text = "6kg"
             baseStatHp.statName.text = "Hp"
-            baseStatHp.statValue.text = "35"
             baseStatAttack.statName.text = "Attack"
-            baseStatAttack.statValue.text = "55"
             baseStatDefense.statName.text = "Defense"
-            baseStatDefense.statValue.text = "40"
             baseStatSplAttack.statName.text = "Special Attack"
-            baseStatSplAttack.statValue.text = "50"
             baseStatSplDefense.statName.text = "Special Defense"
-            baseStatSplDefense.statValue.text = "50"
             baseStatSpeed.statName.text = "Speed"
-            baseStatSpeed.statValue.text = "90"
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                pokemonDetailViewModel.pokemonFlow.collect { pokemon ->
+                    pokemon?.let { updateUi(it) }
+                }
+            }
+        }
+    }
+
+    private fun updateUi(pokemon: Pokemon) {
+        val logoResourceId = context?.resources?.getIdentifier(
+            pokemon.imageFile.split(".")[0],
+            "drawable",
+            requireContext().packageName
+        )
+        binding.apply {
+            logoResourceId?.let { pokemonImage.setImageResource(it) }
+            pokemonName.text = pokemon.name
+            pokemonHeight.statValue.text = pokemon.height.toString()
+            pokemonWeight.statValue.text = pokemon.weight.toString()
+            baseStatHp.statValue.text = pokemon.hp.toString()
+            baseStatAttack.statValue.text = pokemon.attack.toString()
+            baseStatDefense.statValue.text = pokemon.defense.toString()
+            baseStatSplAttack.statValue.text = pokemon.specialAttack.toString()
+            baseStatSplDefense.statValue.text = pokemon.specialDefense.toString()
+            baseStatSpeed.statValue.text = pokemon.speed.toString()
         }
     }
 
