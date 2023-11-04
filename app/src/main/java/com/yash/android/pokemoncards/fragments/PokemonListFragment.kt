@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.yash.android.pokemoncards.PokemonListAdapter
 import com.yash.android.pokemoncards.databinding.FragmentPokemonListBinding
@@ -31,7 +32,11 @@ class PokemonListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pokemonRecyclerView.adapter = PokemonListAdapter(pokemonListViewModel.pokemons)
+        binding.pokemonRecyclerView.adapter = PokemonListAdapter(pokemonListViewModel.pokemons) { pokemonId ->
+            findNavController().navigate(
+                PokemonListFragmentDirections.showPokemonDetail(pokemonId)
+            )
+        }
     }
 
     override fun onDestroyView() {
