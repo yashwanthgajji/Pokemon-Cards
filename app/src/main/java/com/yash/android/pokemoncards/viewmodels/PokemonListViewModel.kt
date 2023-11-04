@@ -2,10 +2,12 @@ package com.yash.android.pokemoncards.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.yash.android.pokemoncards.models.Pokemon
+import java.util.UUID
 
 class PokemonListViewModel: ViewModel() {
-    val pokemons = listOf<Pokemon>(
+    val pokemons = listOf(
         Pokemon(
+            UUID.randomUUID(),
             "Bulbasaur",
             "bulbasaur.png",
             0.7,
@@ -18,6 +20,7 @@ class PokemonListViewModel: ViewModel() {
             45
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Arbok",
             "arbok.png",
             3.5,
@@ -30,6 +33,7 @@ class PokemonListViewModel: ViewModel() {
             80
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Charmander",
             "charmander.png",
             0.6,
@@ -42,6 +46,7 @@ class PokemonListViewModel: ViewModel() {
             65
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Mewtwo",
             "mewtwo.png",
             2.0,
@@ -54,6 +59,7 @@ class PokemonListViewModel: ViewModel() {
             130
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Moltres",
             "moltres.png",
             2.0,
@@ -66,6 +72,7 @@ class PokemonListViewModel: ViewModel() {
             90
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Onix",
             "onix.png",
             8.8,
@@ -78,6 +85,7 @@ class PokemonListViewModel: ViewModel() {
             70
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Pikachu",
             "pikachu.png",
             0.4,
@@ -90,6 +98,7 @@ class PokemonListViewModel: ViewModel() {
             90
         ),
         Pokemon(
+            UUID.randomUUID(),
             "Treecko",
             "treecko.png",
             0.5,
