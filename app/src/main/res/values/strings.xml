@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pokemon Cards</string>
+    <string name="height_meter_label">Height(meter)</string>
+    <string name="weight_kg_label">Weight(Kg)</string>
+    <string name="hp_label">Hp</string>
+    <string name="attack_label">Attack</string>
+    <string name="defense_label">Defense</string>
+    <string name="speed_label">Speed</string>
 </resources>
