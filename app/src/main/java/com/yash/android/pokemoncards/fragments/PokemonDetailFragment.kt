@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.yash.android.pokemoncards.R
 import com.yash.android.pokemoncards.databinding.FragmentPokemonDetailBinding
 import com.yash.android.pokemoncards.models.Pokemon
 import com.yash.android.pokemoncards.viewmodels.PokemonDetailViewModel
@@ -39,14 +40,14 @@ class PokemonDetailFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            pokemonHeight.statName.text = "Height(meter)"
-            pokemonWeight.statName.text = "Weight(Kg)"
-            baseStatHp.statName.text = "Hp"
-            baseStatAttack.statName.text = "Attack"
-            baseStatDefense.statName.text = "Defense"
+            pokemonHeight.statName.text = getString(R.string.height_meter_label)
+            pokemonWeight.statName.text = getString(R.string.weight_kg_label)
+            baseStatHp.statName.text = getString(R.string.hp_label)
+            baseStatAttack.statName.text = getString(R.string.attack_label)
+            baseStatDefense.statName.text = getString(R.string.defense_label)
             baseStatSplAttack.statName.text = "Special Attack"
             baseStatSplDefense.statName.text = "Special Defense"
-            baseStatSpeed.statName.text = "Speed"
+            baseStatSpeed.statName.text = getString(R.string.speed_label)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
