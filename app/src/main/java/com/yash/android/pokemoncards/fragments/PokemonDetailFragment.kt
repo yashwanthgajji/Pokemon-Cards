@@ -1,4 +1,4 @@
-package com.yash.android.pokemoncards
+package com.yash.android.pokemoncards.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
