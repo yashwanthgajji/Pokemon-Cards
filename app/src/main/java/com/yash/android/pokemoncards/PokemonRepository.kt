@@ -1,13 +1,11 @@
 package com.yash.android.pokemoncards
 
 import android.content.Context
-import android.util.Log
 import com.yash.android.pokemoncards.models.Pokemon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.util.UUID
 
-const val TAG = "PokemonRepository"
 class PokemonRepository private constructor(context: Context, private val appContext: Context) {
     private var pokemons = mutableListOf<Pokemon>()
 
@@ -55,7 +53,6 @@ class PokemonRepository private constructor(context: Context, private val appCon
                             values[22].toDouble().toInt(),
                             values[23].toDouble().toInt()
                         )
-                        Log.d(TAG, "$currPokemon")
                         pokemonList.add(currPokemon)
                     }
                 }
