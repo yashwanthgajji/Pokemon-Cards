@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flowOf
 import java.util.UUID
 
 const val TAG = "PokemonRepository"
-class PokemonRepository private constructor(private val context: Context) {
+class PokemonRepository private constructor(context: Context, private val appContext: Context) {
     private var pokemons = mutableListOf<Pokemon>()
 
     init {
@@ -24,9 +24,9 @@ class PokemonRepository private constructor(private val context: Context) {
     }
 
     private fun readDataSet(): MutableList<Pokemon> {
-        val assetManager = context.assets
         val pokemonList = mutableListOf<Pokemon>()
         try {
+            val assetManager = appContext.assets
             val inputStream = assetManager.open("pokedex.csv")
             inputStream.bufferedReader().useLines { lines ->
                 var i = 0
@@ -36,10 +36,10 @@ class PokemonRepository private constructor(private val context: Context) {
                         continue
                     }
                     val values = line.split(",")
-                    val logoResourceId = context.resources.getIdentifier(
+                    val logoResourceId = appContext.resources.getIdentifier(
                         values[2].lowercase(),
                         "drawable",
-                        context.packageName
+                        appContext.packageName
                     )
                     if (logoResourceId != 0) {
                         val currPokemon = Pokemon(
@@ -71,7 +71,7 @@ class PokemonRepository private constructor(private val context: Context) {
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {
-                INSTANCE = PokemonRepository(context)
+                INSTANCE = PokemonRepository(context, context)
             }
         }
 
